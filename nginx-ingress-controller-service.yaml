@@ -3,16 +3,22 @@ kind: Service
 metadata:
   name: nginx-ingress-controller
   #namespace: shared-ingress
+  annotations:
+    service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+    service.beta.kubernetes.io/oci-load-balancer-internal: "false"
+    service.beta.kubernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaa5agl25h3czm5qzg66hy4bjsl63uiqo4t3orrmz67g5uv427i3d3a"
   labels:
     k8s-app: nginx-ingress-controller
 spec:
   type: LoadBalancer
   ports:
-  - port: 80
-    nodePort: 30021
-    name: http
-  - port: 443
-    nodePort: 30022
-    name: https
+    - port: 80
+      nodePort: 30021
+      name: http
+    - port: 443
+      nodePort: 30022
+      name: https
   selector:
     k8s-app: nginx-ingress-controller
